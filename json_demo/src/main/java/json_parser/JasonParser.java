@@ -15,6 +15,10 @@ public class JasonParser  {
 /*
  * This is ParseFiles method this method parses the JSON files into the Java object
  * and then it converts the that object to an array jsondata object.
+ * The data is stored in the source folder and the output will be stored in the output folder.
+ * the output consist of the Result.csv file having three columns Id,Kruzbezeichnug,Strassenbezeichnug.
+ * It also has an output file of Error.txt file which stores the empty files or the error files.
+ * Error.txt file has list of faulty file names and the error message.   
  */
     private static void ReadFiles(String folderPath){
 
@@ -29,7 +33,7 @@ public class JasonParser  {
          File[] files = folder.listFiles();
          
          //This gives the object the path of the result file which is output in the project.
-         FileWriter writer = new FileWriter("C:\\Users\\moham\\OneDrive\\Desktop\\mavenpr\\json_demo\\OutputFolder\\Result.CSV");
+         FileWriter writer = new FileWriter((System.getProperty("user.dir")+"\\mavenpr\\json_demo\\OutputFolder\\Result.csv"));
 
          //Writing the first row of three colomn Id,Kruzbezeichnug,Strassenbezeichnug
          writer.write("Id,Kruzbezeichnug,Strassenbezeichnug");
@@ -44,7 +48,7 @@ public class JasonParser  {
               data = gSon.fromJson(new FileReader(file),jsondata[].class);
  
               if(data.length==0||data == null){
-                writeError(filename,"Empty file", "C:\\Users\\moham\\OneDrive\\Desktop\\mavenpr\\json_demo\\OutputFolder\\Error.txt");
+                writeError(filename,"Empty file",(System.getProperty("user.dir")+"\\mavenpr\\json_demo\\OutputFolder\\Error.txt"));
               }
  
               //This loop runs through the array of data object
@@ -61,16 +65,16 @@ public class JasonParser  {
   
          } catch (Exception e) {
              // TODO: handle exception
-             writeError(filename,e.toString(), "C:\\Users\\moham\\OneDrive\\Desktop\\mavenpr\\json_demo\\OutputFolder\\Error.txt");
+             writeError(filename,e.toString(), (System.getProperty("user.dir")+"\\mavenpr\\json_demo\\OutputFolder\\Error.txt"));
              
          }
        }
        writer.close();
-       System.out.println("File created successfully!");
+       System.out.println("File created successfully in the OUTPUT FOLDER!");
  
        } catch (Exception e) {
         // TODO: handle exception
-        writeError(filename,e.toString(), "C:\\Users\\moham\\OneDrive\\Desktop\\mavenpr\\json_demo\\OutputFolder\\Error.txt");
+        writeError(filename,e.toString(), (System.getProperty("user.dir")+"\\mavenpr\\json_demo\\OutputFolder\\Error.txt"));
         
        }
     }
@@ -91,7 +95,7 @@ public class JasonParser  {
     public static void main(String[] args) throws IOException {
 
         //calling the fuction and passing the path to the fuction where the data is located
-        ReadFiles("C:\\Users\\moham\\OneDrive\\Desktop\\mavenpr\\json_demo\\src\\data\\data");
+        ReadFiles((System.getProperty("user.dir")+"\\mavenpr\\json_demo\\src\\data\\data"));
            
     }
 }
